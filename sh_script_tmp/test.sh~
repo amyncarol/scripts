@@ -1,5 +1,4 @@
 #!/bin/bash
-###hye!!!
 ### Number of nodes - 2 nodes using 12 cores per node
 #PBS -l nodes=1:ppn=64
 ### Example: to request 2 VPs on each of 3 nodes and 1 VPs on 2 more nodes
