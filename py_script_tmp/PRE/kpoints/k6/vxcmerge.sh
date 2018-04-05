@@ -1,0 +1,1 @@
+cat wfn_0/vxc.dat wfn_8/vxc.dat wfn_9/vxc.dat wfn_1/vxc.dat wfn_10/vxc.dat wfn_11/vxc.dat wfn_12/vxc.dat wfn_13/vxc.dat wfn_14/vxc.dat wfn_15/vxc.dat wfn_16/vxc.dat wfn_17/vxc.dat wfn_2/vxc.dat wfn_18/vxc.dat wfn_19/vxc.dat wfn_20/vxc.dat > vxc.dat

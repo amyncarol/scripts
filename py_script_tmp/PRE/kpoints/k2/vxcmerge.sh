@@ -1,0 +1,1 @@
+cat wfn_0/vxc.dat wfn_1/vxc.dat wfn_2/vxc.dat > vxc.dat

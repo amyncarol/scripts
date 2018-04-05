@@ -1,0 +1,178 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import re"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "ename": "IOError",
+     "evalue": "[Errno 2] No such file or directory: 'metaGGA_Eg'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n\u001b[0;31mIOError\u001b[0m                                   Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-3-2fe6d5f6418e>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mmetaGGA_Eg\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mopen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'metaGGA_Eg'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'r'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mPBE_Eg\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mopen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'PBE_Eg'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'r'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mIOError\u001b[0m: [Errno 2] No such file or directory: 'metaGGA_Eg'"
+     ]
+    }
+   ],
+   "source": [
+    "metaGGA_Eg = open('metaGGA_Eg', 'r')\n",
+    "PBE_Eg = open('PBE_Eg', 'r')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "metaGGA_line = metaGGA_Eg.readlines()\n",
+    "PBE_line = PBE_Eg.readlines()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "metaGGA_key = []\n",
+    "metaGGA_value = []\n",
+    "for line in metaGGA_line:\n",
+    "    match = re.match(r\"([a-z]+)([ ]+)([a-z]+)([ ]+)([a-z]+)([ ]+)([0-9.]+)\", line, re.I)\n",
+    "    if match:\n",
+    "        items = match.groups()\n",
+    "        metaGGA_key.append(items[0]+'2'+items[2]+'1'+items[4]+'6')\n",
+    "        metaGGA_value.append(items[6])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "PBE_value = []\n",
+    "i = 0\n",
+    "for line in PBE_line:\n",
+    "    match = re.match(r\"([a-z]+)([ ]+)([a-z]+)([ ]+)([a-z]+)([ ]+)([0-9.]+)\", line, re.I)\n",
+    "    if match:\n",
+    "        items = match.groups()\n",
+    "        if i < len(metaGGA_key):\n",
+    "            if metaGGA_key[i] == (items[0]+'2'+items[2]+'1'+items[4]+'6'):\n",
+    "                PBE_value.append(items[6])\n",
+    "                i = i+1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0, 1, 2, 3])"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "x_pos = np.arange(len(metaGGA_key))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(x_pos, metaGGA_value, label ='metaGGA_MBJ' )\n",
+    "plt.plot(x_pos, PBE_value, label = 'PBE')\n",
+    "plt.legend()\n",
+    "plt.xticks(x_pos, metaGGA_key, rotation=90)\n",
+    "plt.show()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "diff = []\n",
+    "for i in range(len(metaGGA_key)):\n",
+    "    diff.append(float(metaGGA_value[i]) - float(PBE_value[i]))\n",
+    "plt.plot(x_pos, diff, label = 'metaGGA-PBE')\n",
+    "plt.legend()\n",
+    "plt.xticks(x_pos, metaGGA_key, rotation=90)\n",
+    "line = []\n",
+    "for i in range(len(metaGGA_key)):\n",
+    "    line.append(0)\n",
+    "plt.plot(x_pos, line)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}

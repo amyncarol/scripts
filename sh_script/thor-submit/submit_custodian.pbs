@@ -1,0 +1,11 @@
+#!/bin/bash
+### Number of nodes - 2 nodes using 12 cores per node
+#PBS -l nodes=1:ppn=4
+#PBS -j oe
+#PBS -q default
+#PBS -N Relax
+#PBS -A Testing
+
+cd "${PBS_O_WORKDIR}"
+python2 custodian_job.py
+

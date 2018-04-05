@@ -1,0 +1,37 @@
+WFN
+6 6 6
+0.0 0.0 0.0 ! final k-shift
+16 ! total number of input WFN files
+16 ! total number of k-points in all input WFN files
+wfn_0/WFN
+wfn_8/WFN
+wfn_9/WFN
+wfn_1/WFN
+wfn_10/WFN
+wfn_11/WFN
+wfn_12/WFN
+wfn_13/WFN
+wfn_14/WFN
+wfn_15/WFN
+wfn_16/WFN
+wfn_17/WFN
+wfn_2/WFN
+wfn_18/WFN
+wfn_19/WFN
+wfn_20/WFN
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
+1.0
