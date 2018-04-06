@@ -2,6 +2,7 @@
 #SBATCH --job-name=gpu_test
 #SBATCH --account=fc_mdasta
 #SBATCH --partition=savio2_gpu
+#SBATCH --qos=savio_debug
 #SBATCH --time=00:30:00
 
 #SBATCH --nodes=1
@@ -16,4 +17,4 @@
 #SBATCH --cpus-per-task=2
 
 module load ml/tensorflow/1.0.0-py36
-./a.out
+python cifar10_multi_gpu_train.py --num_gpus=1
