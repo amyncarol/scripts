@@ -16,10 +16,4 @@ with open('formation_energy_result', 'w') as f:
 			except:
 				f.write(str(1000))
                 	f.write('\n')
-
-
-
-
-
-
 			
