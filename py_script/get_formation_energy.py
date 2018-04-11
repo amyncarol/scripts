@@ -5,15 +5,15 @@ from pymatgen.io.vasp.outputs import Vasprun
 import os
 
 with open('formation_energy_result', 'w') as f:
-        for folder in os.listdir('.'):
-		if os.path.isdir(folder):
-                	f.write(folder)
-                	f.write(' ')
-                	try:                
-                		vr = Vasprun(os.path.join(folder,"vasprun.xml"))
-                		energy = get_formation_energy(vr)
-                		f.write(str(energy))
-			except:
-				f.write(str(1000))
-                	f.write('\n')
-			
+    for folder in os.listdir('.'):
+        if os.path.isdir(folder):
+            f.write(folder)
+            f.write(' ')
+            try:                
+                vr = Vasprun(os.path.join(folder,"vasprun.xml"))
+                energy = get_formation_energy(vr)
+                f.write(str(energy))
+            except:
+                f.write(str(1000))
+            f.write('\n')
+                        
