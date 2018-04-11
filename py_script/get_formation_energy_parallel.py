@@ -22,7 +22,7 @@ else:
 	compounds = None
 compounds = comm.bcast(compounds, root=0)
 
-for j in range(rank, (len(compounds)/size+1)*size, size):
+for j in range(rank, (len(compounds)//size+1)*size, size):
 	if j < 	len(compounds):
 		try:
 			folder = compounds[j]
