@@ -17,4 +17,4 @@
 #SBATCH --cpus-per-task=2
 
 module load ml/tensorflow/1.0.0-py36
-python cifar10_multi_gpu_train.py --num_gpus=1
+python cifar10_eval.py

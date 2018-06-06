@@ -4,7 +4,7 @@
 #SBATCH -e vjob.e%j
 #SBATCH --partition=savio2
 
-#SBATCH --nodes=2
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=24
 #SBATCH --export=ALL
 #SBATCH -t 00:30:00
@@ -15,9 +15,12 @@
 #SBATCH --mail-type=END
 #SBATCH --exclusive
 
+module unload gcc
 module unload openmpi/1.6.5-intel
-module load intel/2013_sp1.4.211
-module load mkl/2013_sp1.4.211
+#module load intel/2013_sp1.4.211
+#module load mkl/2013_sp1.4.211
+module load intel/2016.4.072
+module load mkl/2016.4.072
 export PATH=/global/home/users/yaocai/intel_ib/bin:$PATH
 export LD_LIBRARY_PATH=/global/home/users/yaocai/intel_ib/lib:$LD_LIBRARY_PATH
 
