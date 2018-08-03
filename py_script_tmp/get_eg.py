@@ -1,36 +1,43 @@
-#!/home/yaocai/app/bin/python
-##python2.7.9 pymatgen 4.5
-from pymatgen.io.vasp.outputs import Vasprun
+#!/usr/bin/python
+# -*- coding: iso-8859-1 -*- 
+
 import os
-##hey!!!
-with open('Eg_result', 'w') as f:
-	for folder in os.listdir('.'):
-		if os.path.isdir(folder):
-			f.write(folder)
-			f.write(' ')
-					
-			vr = Vasprun(os.path.join(folder,"vasprun.xml"))
-			eg = vr.eigenvalue_band_properties[0]
-			efermi = vr.efermi
-			vbm = vr.eigenvalue_band_properties[2]
-			energy = vr.final_energy
-			a = vr.structures[0].lattice.a
+import fileinput
+import sys
+import re
+import string
+import shutil
+from pymatgen.io.vaspio.vasp_output import Vasprun
+from pymatgen.io.vaspio.vasp_input import Poscar
+from pymatgen.core.periodic_table import Element
+from  pymatgen.io.vaspio_set import MPVaspInputSet
 
-			eig = [vr.eigenvalues[i] for i in vr.eigenvalues]
-			occu = [i.tolist() for i in eig]
-			occu_flat = [i[1] for sublist in occu for subsublist in sublist for i in subsublist]
-			occu_set = set(occu_flat)
+Aele_Screen=['K','Rb','Cs']
+Bele_Screen=['Ag','Cu','K','Na','Li']
+Cele_Screen=['Bi','Sb','Ce','Pr','Nd','Ta','Mo','Y']
+#['Al','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Ga','Ge','As','Y','Zr','Nb',
+#'Mo','Ru','Rh','Ag','In','Sb','La','Ce','Pr','Nd','Sm','Eu','Gd','Tb','Dy','Ho',
+#'Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Au','Tl','Bi']
+Dele_Screen=['F','Cl','Br','I']
 
-			f.write(str(a))
-			f.write(' ')
+Pre_Dir = '/home/zzy/216-Screening/Result' 
 
-			f.write(str(energy))
-			f.write(' ')
+Fail_log = open ('Fail_Eg.log','w')
+Eg_Result = open ('Eg','w')
+
+mpvis = MPVaspInputSet()
+for i in range(len(Aele_Screen)):
+	for j in range(len(Bele_Screen)):
+		for k in range(len(Cele_Screen)):
+			for l in range(len(Dele_Screen)):
+				currentfolder=Aele_Screen[i]+'2'+Bele_Screen[j]+'1'+Cele_Screen[k]+'1'+Dele_Screen[l]+'6'
+
+				try:
+					Eg = Vasprun(os.path.join(currentfolder,'vasprun.xml')).eigenvalue_band_properties[0]
+		#	if Eg > 0.15 and Eg < 0.5:
+					print >>Eg_Result, Aele_Screen[i], Bele_Screen[j],Cele_Screen[k],Dele_Screen[l], Eg	
+
+				except:
+					print >> Fail_log, currentfolder
+		                        print >> Eg_Result, Aele_Screen[i], Bele_Screen[j],Cele_Screen[k],Dele_Screen[l], 1000	
 			
-			if efermi < vbm:
-				f.write('0')
-			elif len(occu_set) > 2:	
-				f.write('0')
-			else:
-				f.write(str(eg))
-			f.write('\n')
